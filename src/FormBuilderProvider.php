@@ -1,0 +1,42 @@
+<?php
+
+namespace Valourite\FormBuilder;
+
+use Filament\Facades\Filament;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Valourite\FormBuilder\Commands\InstallFormBuilder;
+
+class FormBuilderProvider extends PackageServiceProvider
+{
+    public function bootingPackage()
+    {
+        //fallback to ensure migrations run
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+    }
+
+    public function configurePackage(\Spatie\LaravelPackageTools\Package $package): void
+    {
+        $package
+            ->name('form-builder')
+            ->hasConfigFile()
+            ->hasTranslations()
+            ->hasViews()
+            ->hasCommands($this->getCommands())
+            ->hasMigrations($this->getMigrations())
+            ->hasRoute('web');
+    }
+
+    public function getMigrations() {
+        //return list of migration names
+        return [
+            'create_forms_table',
+        ];
+    }
+
+    public function getCommands(): array
+    {
+        return [
+            InstallFormBuilder::class,
+        ];
+    }
+}

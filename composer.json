@@ -1,0 +1,29 @@
+{
+    "name": "valourite/form-builder",
+    "description": "A package for building custom forms using laraval and filament",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Valourite\\FormBuilder\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Valourite\\FormBuilder\\FormBuilderProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Dayne Myburgh",
+            "email": "dayne@valourite.co.za"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.2",
+       "laravel/framework": "^12.0",
+       "filament/filament": "^4.0"
+    }
+}
