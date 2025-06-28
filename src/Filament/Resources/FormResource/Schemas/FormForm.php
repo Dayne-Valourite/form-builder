@@ -6,8 +6,10 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Valourite\FormBuilder\Filament\Components\Builder\SectionRepeater;
 use Valourite\FormBuilder\Models\Form;
 
 class FormForm
@@ -16,55 +18,65 @@ class FormForm
     {
         return $schema
             ->components([
-                TextInput::make(Form::FROM_NAME)
-                    ->label('Form Name')
-                    ->helperText('The unique name of the form')
-                    ->reactive()
-                    ->debounce(5000)
-                    ->afterStateUpdated(function (Set $set, ?string $state) {
-                        if ($state) {
-                            $set(Form::FORM_SLUG, str($state)->slug());
-                        }
-                    })
-                    ->required(),
+                Section::make('Form Details')
+                    ->columns(2)
+                    ->schema([
 
-                TextInput::make(Form::FORM_SLUG)
-                    ->label('Form Slug')
-                    ->disabled()
-                    ->dehydrated() //alows the field to be saved
-                    ->required()
-                    ->helperText('The slug of the form'),
-                
-                Textarea::make(Form::FORM_DESCRIPTION)
-                    ->label('Form Description'),
+                    TextInput::make(Form::FROM_NAME)
+                        ->label('Form Name')
+                        ->helperText('The unique name of the form')
+                        ->reactive()
+                        ->debounce(5000)
+                        ->afterStateUpdated(function (Set $set, ?string $state) {
+                            if ($state) {
+                                $set(Form::FORM_SLUG, str($state)->slug());
+                            }
+                        })
+                        ->required(),
 
-                Textarea::make(Form::FORM_CONFIRMATION_MESSAGE)
-                    ->label('Form Confirmation Message'),
+                    TextInput::make(Form::FORM_SLUG)
+                        ->label('Form Slug')
+                        ->disabled()
+                        ->dehydrated() //alows the field to be saved
+                        ->required()
+                        ->helperText('The slug of the form'),
+                    
+                    Textarea::make(Form::FORM_DESCRIPTION)
+                        ->label('Form Description'),
 
-                Toggle::make(Form::IS_ACTIVE)
-                    ->default(true)
-                    ->label('Is Form Active?')
-                    ->required(),
-                
-                Select::make(Form::FORM_MODEL)
-                    ->label('Form Model')
-                    ->options(
-                        collect(config('form-builder.models', []))
-                            ->mapWithKeys(fn ($class) => [$class => class_basename($class)])
-                            ->toArray()
-                    )
-                    ->required(),
+                    Textarea::make(Form::FORM_CONFIRMATION_MESSAGE)
+                        ->label('Form Confirmation Message'),
 
-                //Form content will be set when the form repeater is used
-                TextInput::make(Form::FORM_CONTENT)
-                    ->default('{}')
-                    ->hidden()
-                    ->dehydrated(), //allows the field to be saved
+                    Toggle::make(Form::IS_ACTIVE)
+                        ->default(true)
+                        ->label('Is Form Active?')
+                        ->required(),
+                    
+                    Select::make(Form::FORM_MODEL)
+                        ->label('Form Model')
+                        ->options(
+                            collect(config('form-builder.models', []))
+                                ->mapWithKeys(fn ($class) => [$class => class_basename($class)])
+                                ->toArray()
+                        )
+                        ->required(),
 
-                TextInput::make(Form::FORM_VERSION)
-                    ->default('0.0.1')
-                    ->maxLength(10)
-                    ->required(),
-            ]);
+                    TextInput::make(Form::FORM_VERSION)
+                        ->default('0.0.1')
+                        ->maxLength(10)
+                        ->required(),
+                    ]), 
+               
+                    //Section for form creation
+                    Section::make('Form Creation')
+                        ->schema([
+                            //Create section repeater
+                            SectionRepeater::make(Form::FORM_CONTENT)
+                                ->label('Form Structure')
+                                ->helperText('Define the form sections and their fields'),  
+                        ])
+                        ->columns(1)
+            ])
+            ->columns(1);
     }
 }
