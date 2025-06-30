@@ -1,0 +1,5 @@
+☐ Rename Builder Folder to Support
+☐ Add required fields 
+☐ Add prefix icons into field selector
+☐ Add more fields
+☐ Extract custom code into own createModel page, as well as inject schema for form selector into model creation schema

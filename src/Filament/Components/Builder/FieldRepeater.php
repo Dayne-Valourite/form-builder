@@ -21,11 +21,15 @@ class FieldRepeater extends Repeater
 
         $component
             ->label('Form Field')
+            ->grid(2)
+            ->columnSpanFull()
+            //->columns(1)
             // ->collapsible()
             // ->collapsed()
             ->schema([
                 Tabs::make()
                     ->label('Field')
+                    ->columnSpanFull()
                     ->tabs([
                         Tab::make('Field')
                             ->label('Field')
@@ -33,6 +37,10 @@ class FieldRepeater extends Repeater
                                 TextInput::make('name')
                                     ->label('name')
                                     ->required(),
+
+                                TextInput::make('label')
+                                    ->label('Label')
+                                    ->helperText('This is the label of the field'),
 
                                 Select::make('type')
                                     ->label('Type')
@@ -48,10 +56,10 @@ class FieldRepeater extends Repeater
                                     ->label('Colour')
                                     ->helperText('This is the colour of the field'),
 
-                                Select::make('icon')
-                                    ->label('Icon')
+                                Select::make('prefix_icon')
+                                    ->label('Prefix Icon')
                                     ->options(Heroicon::class)
-                                    ->helperText('This is the icon of the field'),
+                                    ->helperText('This is the icon to prefix the field'),
 
                                 TextInput::make('custom_id')
                                     ->label('Custom ID')

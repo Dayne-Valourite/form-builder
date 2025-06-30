@@ -27,7 +27,7 @@ class FormForm
                         ->label('Form Name')
                         ->helperText('The unique name of the form')
                         ->reactive()
-                        ->debounce(5000)
+                        ->debounce(1000)
                         ->afterStateUpdated(function (Set $set, ?string $state) {
                             if ($state) {
                                 $set(Form::FORM_SLUG, str($state)->slug());

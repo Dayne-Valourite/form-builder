@@ -25,8 +25,6 @@ return [
     /**
      * A list of all the models on the system that a form can be created for.
      * These models will need to have a form_fields column on them
-     * 
-     * 
      */
     'models' => [
         // \App\Models\User::class, 
