@@ -91,7 +91,33 @@ class Form extends Model
 		static::creating(function ($model) {
 			$model->form_slug = str($model->form_name)->slug();
 
-			$model->form_content ??= json_encode('{}');
+			if(is_null($model->form_content)) {
+				$model->form_content = json_encode('{}');
+			} else {
+				// $processed = collect($model->form_content)->map(function ($section) {
+				// 	$section['meta'] = [
+				// 		'colour' => $section['colour'] ?? null,
+				// 		'icon' => $section['icon'] ?? null,
+				// 		'custom_id' => $section['custom_id'] ?? uniqid('sec-'),
+				// 	];
+
+				// 	unset($section['colour'], $section['icon'], $section['custom_id']);
+				// 	return $section;
+				// });
+
+				// $model->form_content = $processed->toArray();
+
+				//Map the form content into the json format
+				/**
+				 * "sections" => {}
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 */
+			}
 		});
     }
 

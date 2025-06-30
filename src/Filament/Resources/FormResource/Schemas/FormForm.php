@@ -2,6 +2,7 @@
 
 namespace Valourite\FormBuilder\Filament\Resources\FormResource\Schemas;
 
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -41,11 +42,13 @@ class FormForm
                         ->required()
                         ->helperText('The slug of the form'),
                     
-                    Textarea::make(Form::FORM_DESCRIPTION)
-                        ->label('Form Description'),
+                    RichEditor::make(Form::FORM_DESCRIPTION)
+                        ->label('Form Description')
+                        ->helperText('Enter the optional description of the form'),
 
-                    Textarea::make(Form::FORM_CONFIRMATION_MESSAGE)
-                        ->label('Form Confirmation Message'),
+                    RichEditor::make(Form::FORM_CONFIRMATION_MESSAGE)
+                        ->label('Form Confirmation Message')
+                        ->helperText('Enter the optional confirmation message of the form'),
 
                     Toggle::make(Form::IS_ACTIVE)
                         ->default(true)
@@ -71,9 +74,7 @@ class FormForm
                     Section::make('Form Creation')
                         ->schema([
                             //Create section repeater
-                            SectionRepeater::make(Form::FORM_CONTENT)
-                                ->label('Form Structure')
-                                ->helperText('Define the form sections and their fields'),  
+                            SectionRepeater::make(Form::FORM_CONTENT),  
                         ])
                         ->columns(1)
             ])

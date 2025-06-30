@@ -2,31 +2,66 @@
 
 namespace Valourite\FormBuilder\Filament\Components\Builder;
 
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Support\Icons\Heroicon;
+use \Illuminate\Support\Str;
 use Valourite\FormBuilder\Filament\Enums\FieldType;
 
-class FieldRepeater
+class FieldRepeater extends Repeater
 {
-    public static function make(): Repeater
+    public static function make(?string $name = null): static
     {
-        return Repeater::make('fields')
-            ->label('Form Fields')
-            ->schema([
-               TextInput::make('name')->required(),
+        $component = parent::make($name);
 
-               Select::make('type')
-                ->options(FieldType::class)
-                ->getOptionLabelsUsing(fn ($option) => ucfirst($option))
-                ->required(),
-                
-                Textarea::make('options')
-                    ->label('Options (for selects')
-                    ->helperText('Comma seperated values')
-                    ->visible(fn ($get) => $get('type') === FieldType::SELECT->value),
+        $component
+            ->label('Form Field')
+            // ->collapsible()
+            // ->collapsed()
+            ->schema([
+                Tabs::make()
+                    ->label('Field')
+                    ->tabs([
+                        Tab::make('Field')
+                            ->label('Field')
+                            ->schema([
+                                TextInput::make('name')
+                                    ->label('name')
+                                    ->required(),
+
+                                Select::make('type')
+                                    ->label('Type')
+                                    ->options(FieldType::class)
+                                    ->getOptionLabelsUsing(fn (string $label): string => Str::ucfirst($label))
+                                    ->required(),
+                            ]),
+
+                        Tab::make('Options')
+                            ->label('Options')
+                            ->schema([
+                                ColorPicker::make('colour')
+                                    ->label('Colour')
+                                    ->helperText('This is the colour of the field'),
+
+                                Select::make('icon')
+                                    ->label('Icon')
+                                    ->options(Heroicon::class)
+                                    ->helperText('This is the icon of the field'),
+
+                                TextInput::make('custom_id')
+                                    ->label('Custom ID')
+                                    ->default(uniqid('field-'))
+                                    ->helperText('This is the unique custom ID of the field'),
+                            ]),
+                    ]),
             ])
             ->columns(2);
+
+        return $component;
     }
 }
