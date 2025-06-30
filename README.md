@@ -1,30 +1,41 @@
-# 🧩 Laravel Form Builder
+# Form Builder for Filament & Laravel
 
-A dynamic, schema-driven form builder for Laravel + Filament 4.  
-Define flexible forms using JSON. Store responses directly on your model.  
-Auto-generate Filament form fields from a saved form structure — no hardcoding required.
+**Form Builder** is a Laravel package built on top of [Filament v4](https://filamentphp.com), allowing you to visually build and manage dynamic forms from your admin panel.  
+It lets you **attach custom forms to any Eloquent model** in your application with minimal setup.
 
 ---
 
-## 🚀 Features
+## ✨ Features
 
-- 🧱 Build forms using Filament UI components (`TextInput`, `Select`, `DatePicker`, etc.)
-- 🔁 Nested sections + fields via repeaters
-- 🎨 Customize field labels, types, icons, and layout
-- 💾 Store form schema and responses directly on your model
-- ⚡ Automatically render fields at runtime based on a selected form
-- 🧠 Smart versioning and change detection
-- 🔌 Plug-and-play with any Filament resource using a trait and base class
+- 🔧 Built entirely with Filament v4 components
+- 🧠 Dynamic form rendering using `form_content` + `form_response`
+- 📥 All form fields are stored in a **single JSON column**
+- 🧱 Visually design sections + fields with nested repeaters
+- 🌀 Automatically bind values via `custom_id`
+- 🧬 Smart versioning support (`form_version`)
+- 🧩 Seamlessly plug into any Eloquent model using a trait
+- 🛠️ Custom Filament resource base for auto-form handling
+- 📦 Install via `form-builder:install` command
 
 ---
 
 ## 📦 Installation
 
+> Requires Laravel 11+ and Filament 4+
+
+### Step 1: Install via Composer
+
 ```bash
-composer require valourite/form-builder
+composer require dayne-valourite/form-builder
 ````
 
-Then install the config and run the migration:
+> Or, if you’re developing locally:
+
+```bash
+composer require dayne-valourite/form-builder --dev
+```
+
+### Step 2: Run the installer
 
 ```bash
 php artisan form-builder:install
@@ -32,53 +43,67 @@ php artisan form-builder:install
 
 This will:
 
-* ✅ Publish the config file: `config/form-builder.php`
-* ✅ Run the database migrations
-
-You’ll be prompted if files already exist.
+* ✅ Publish the config file to `config/form-builder.php`
+* ✅ Run the required database migrations
 
 ---
 
-## 🧰 Usage
+## 🔌 Register the plugin
 
-### 1. **Set up your model**
+In your `PanelProvider`:
+
+```php
+use Valourite\FormBuilder\FormBuilderPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            FormBuilderPlugin::make(),
+        ]);
+}
+```
+
+---
+
+## 🧩 Usage
+
+### 1. ✅ Setup your Eloquent model
 
 Use the `HasFormBuilder` trait:
 
 ```php
 use Valourite\FormBuilder\Concerns\HasFormBuilder;
 
-class User extends Model
+class Client extends Model
 {
     use HasFormBuilder;
 }
 ```
 
-This enables the model to:
+This enables:
 
-* Link to a form (`form_id`)
-* Store a schema snapshot (`form_content`)
-* Store responses (`form_response`)
-* Track the form version (`form_version`)
+* `form_id`
+* `form_content`
+* `form_response`
+* `form_version`
 
-> These fields are auto-filled — no need to add them to `$fillable`.
+> No need to add these to `$fillable`.
 
 ---
 
-### 2. **Create a Filament resource**
-
-Use the `FormBuilderResource` base class:
+### 2. ✅ Create a resource using the base class
 
 ```php
 use Valourite\FormBuilder\Filament\Resources\FormBuilderResource;
 
-class UserResource extends FormBuilderResource
+class ClientResource extends FormBuilderResource
 {
-    protected static string $model = \App\Models\User::class;
+    protected static string $model = \App\Models\Client::class;
 
     /**
-     * Optional: define default fields from your model
-     * If omitted, fields will be auto-generated from `$fillable` + `$casts`
+     * Optional: Define your base fields
+     * If omitted, these will be auto-generated from `$fillable` and `$casts`
      */
     public static function customBaseFields(): array
     {
@@ -92,43 +117,43 @@ class UserResource extends FormBuilderResource
 
 ---
 
-### 3. **Use the provided CreatePage**
-
-Instead of writing your own `CreateUser` page, just extend:
+### 3. ✅ Use the base page class
 
 ```php
 use Valourite\FormBuilder\Filament\Pages\FormBuilderCreateRecord;
 
-class CreateUser extends FormBuilderCreateRecord
+class CreateClient extends FormBuilderCreateRecord
 {
-    protected static string $resource = UserResource::class;
+    protected static string $resource = ClientResource::class;
 }
 ```
 
-> This handles extracting `form_response` from dynamic fields automatically.
+This handles:
+
+* Dynamic rendering of the form schema
+* Saving the form response into `form_response`
+* Linking the correct `form_id`, version, and structure
 
 ---
 
-## 🧠 Dynamic Form Behavior
+## 🧠 How It Works
 
-* When a user selects a form from the dropdown, the schema is loaded into the form
-* Fields are rendered dynamically based on the schema
-* Values are saved back into `form_response` using `custom_id` keys
-* Form schema changes are supported (fields can be marked `is_active: false`)
+* Selecting a form from the dropdown dynamically renders its fields
+* Values are bound using each field’s `custom_id`
+* Saved response values are stored as `form_response[field_id] => value`
+* `form_content` is stored alongside the record for replay/version safety
 
 ---
 
 ## ⚙️ Configuration
 
-You can customize the following in `config/form-builder.php`:
+In `config/form-builder.php`:
 
 ```php
 return [
     'models' => [
-        // Models allowed to use forms
-        \App\Models\User::class,
-        \App\Models\Project::class,
-        \App\Models\Job::class,
+        App\Models\Client::class,
+        App\Models\Project::class,
     ],
 
     'versioning' => [
@@ -140,25 +165,34 @@ return [
 
 ---
 
-## 🧪 Testing
+## 🧪 Testing & Contributing
 
-Use Laravel’s built-in testing to assert:
+Pull requests, issues, and improvements are welcome!
+
+To test form saving logic:
 
 ```php
-$this->assertDatabaseHas('users', [
+$this->assertDatabaseHas('clients', [
     'form_response' => json_encode([...]),
 ]);
 ```
 
 ---
 
-## 🙌 Credits
+## 🚧 Roadmap
 
-Developed by [Valourite](https://github.com/valourite)
-Built with ❤️ for Laravel and Filament 4.
+* [x] Attach forms to any model
+* [x] Store form definitions in DB
+* [x] Save submissions as JSON
+* [x] Versioning support (increment/clone)
+* [ ] Multi-page/wizard forms
+* [ ] Conditional logic & rules
+* [ ] Drag-and-drop field builder
+* [ ] Frontend form rendering (Livewire/Inertia)
 
 ---
 
 ## 📄 License
 
-MIT License — use it, extend it, build cool stuff with it!
+MIT © [Dayne Valourite](https://github.com/dayne-valourite)
+
