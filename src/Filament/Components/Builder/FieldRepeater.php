@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Blade;
 use \Illuminate\Support\Str;
 use Valourite\FormBuilder\Filament\Enums\FieldType;
 
@@ -58,8 +59,27 @@ class FieldRepeater extends Repeater
 
                                 Select::make('prefix_icon')
                                     ->label('Prefix Icon')
-                                    ->options(Heroicon::class)
-                                    ->helperText('This is the icon to prefix the field'),
+                                    ->options(
+                                        collect(Heroicon::cases())
+                                            ->mapWithKeys(fn($icon) => [
+                                                $icon->value => Str::title(str_replace('-', ' ', $icon->value)),
+                                            ])
+                                            ->toArray()
+                                    )
+                                    ->searchable()
+                                    ->getOptionLabelFromRecordUsing(function ($value) {
+                                        return Blade::render(
+                                            '<div class="flex items-center gap-2">
+                                                <x-dynamic-component :component="$icon" class="w-4 h-4 text-gray-500" />
+                                                <span>{{ $label }}</span>
+                                            </div>',
+                                            [
+                                                'icon' => $value,
+                                                'label' => $value,
+                                            ]
+                                        );
+                                    })
+                                    ->helperText('Choose a Heroicon to prefix the field.'),
 
                                 TextInput::make('custom_id')
                                     ->label('Custom ID')

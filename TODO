@@ -16,3 +16,6 @@
 
 ☐ It makes logical sense to rename Form to FormBuilder and FormBuilder to Form, as we extend FormBuilder currently which is weird, we should extend
 ☐ form and then let formBuilder be the resource?
+
+☐ Extract common code, like meta components
+☐ Some components do not have prefixIcon()

@@ -216,10 +216,10 @@ $this->assertDatabaseHas('clients', [
 * [x] Store form definitions in DB
 * [x] Save submissions as JSON
 * [x] Versioning support (increment/clone)
+* [ ] Better handling of form creation without page extending
+* [ ] More Fields
 * [ ] Multi-page/wizard forms
-* [ ] Conditional logic & rules
-* [ ] Drag-and-drop field builder
-* [ ] Frontend form rendering (Livewire/Inertia)
+
 
 ---
 
