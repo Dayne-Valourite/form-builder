@@ -44,11 +44,24 @@ class FormForm
                     
                     RichEditor::make(Form::FORM_DESCRIPTION)
                         ->label('Form Description')
-                        ->helperText('Enter the optional description of the form'),
+                        ->helperText('Enter the optional description of the form')
+                        ->toolbarButtons([
+                            ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link'],
+                            ['h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'],
+                            ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
+                            ['undo', 'redo'],
+                        ]),
 
                     RichEditor::make(Form::FORM_CONFIRMATION_MESSAGE)
                         ->label('Form Confirmation Message')
-                        ->helperText('Enter the optional confirmation message of the form'),
+                        ->helperText('Enter the optional confirmation message of the form')
+                        ->default('Your form has been submitted successfully!')
+                        ->toolbarButtons([
+                            ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link'],
+                            ['h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'],
+                            ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
+                            ['undo', 'redo'],
+                        ]),
 
                     Toggle::make(Form::IS_ACTIVE)
                         ->default(true)
@@ -66,6 +79,8 @@ class FormForm
 
                     TextInput::make(Form::FORM_VERSION)
                         ->default('0.0.1')
+                        ->mask('9.9.9')
+                        ->prefix('v')
                         ->maxLength(10)
                         ->required(),
                     ]), 

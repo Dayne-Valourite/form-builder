@@ -19,39 +19,53 @@ class FormTable
         return $table
             ->columns([
                 TextColumn::make(Form::FROM_NAME)
+                    ->label('Form Name')
                     ->searchable()
-                    ->label('Form Name'),
+                    ->sortable(),
+
                 TextColumn::make(Form::FORM_SLUG)
-                    ->label('Form Slug'),
+                    ->label('Slug')
+                    ->copyable()
+                    ->copyMessage('Slug copied'),
+
                 TextColumn::make(Form::FORM_DESCRIPTION)
+                    ->label('Description')
+                    ->html()
                     ->limit(50)
-                    ->searchable()
-                    ->label('Form Description'),
+                    ->toggleable(isToggledHiddenByDefault: false),
+
                 TextColumn::make(Form::FORM_CONFIRMATION_MESSAGE)
-                    ->label('Form Confirmation Message')
+                    ->label('Confirmation Message')
+                    ->html()
                     ->limit(50)
                     ->toggleable(isToggledHiddenByDefault: true),
-                ToggleColumn::make(Form::IS_ACTIVE)
+
+                TextColumn::make(Form::IS_ACTIVE)
                     ->label('Active')
-                    ->sortable(),
+                    ->badge()
+                    ->color(fn(bool $state) => $state ? 'success' : 'warning')
+                    ->formatStateUsing(fn(bool $state) => $state ? 'Yes' : 'No'),
+
                 TextColumn::make(Form::FORM_MODEL)
-                    ->formatStateUsing(fn($record) => class_basename($record->form_model))
-                    ->label('Form Model'),
+                    ->label('Model')
+                    ->formatStateUsing(fn($state) => class_basename($state)),
+
                 TextColumn::make(Form::FORM_VERSION)
-                    ->label('Form Version'),
+                    ->label('Version')
+                    ->sortable(),
             ])
             ->filters([
-                //Filter by all active forms
                 SelectFilter::make(Form::IS_ACTIVE)
+                    ->label('Status')
                     ->options([
                         '1' => 'Active',
                         '0' => 'Inactive',
                     ]),
 
-                //Filter by form model
                 SelectFilter::make(Form::FORM_MODEL)
-                    ->label('Form Model')
-                    ->options(config('form-builder.models', [])),
+                    ->label('Model')
+                    ->options(collect(config('form-builder.models', []))
+                        ->mapWithKeys(fn($model) => [$model => class_basename($model)])),
             ])
             ->recordActions([
                 ViewAction::make(),
@@ -63,4 +77,5 @@ class FormTable
                 ]),
             ]);
     }
+
 }

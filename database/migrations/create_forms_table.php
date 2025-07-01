@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('form_id');
 
             //name of form - unique
-            $table->string('form_name', 255)->unique('unique_form_name');
+            $table->string('form_name', 255)->index('index_form_name');
 
             //the name of the form as a slug
             $table->string('form_slug', 255);

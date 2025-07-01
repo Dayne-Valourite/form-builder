@@ -33,8 +33,14 @@ abstract class FormBuilderResource extends Resource
 
                 Select::make($instance->getFormIdColumn())
                     ->label('Form')
-                    ->relationship('form', 'form_name')
-                    ->getOptionLabelsUsing(fn($label) => $label->form_model === $model)
+                    ->relationship(
+                        name: 'form',
+                        titleAttribute: 'form_name',
+                        modifyQueryUsing: fn($query) => $query
+                            ->where('form_model', $model)
+                            ->where('is_active', true)
+                    )
+                    //->searchable() searching is annoying
                     ->required()
                     ->live()
                     ->afterStateUpdated(function ($state, callable $set) use ($instance) {
@@ -177,10 +183,13 @@ abstract class FormBuilderResource extends Resource
         $fields = [];
 
         foreach ($model->getFillable() as $attribute) {
-            if (in_array($attribute, [
+            if (
+                in_array($attribute, [
                     $model->getFormContentColumn(),
                     $model->getFormResponseColumn(),
-                ])) continue;
+                ])
+            )
+                continue;
 
             $field = TextEntry::make($attribute);
 

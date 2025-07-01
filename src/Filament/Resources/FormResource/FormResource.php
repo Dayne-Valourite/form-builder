@@ -25,9 +25,6 @@ class FormResource extends Resource
 
     protected static bool $isScopedToTenant = false;
 
-    //cannot use config here
-    protected static string|UnitEnum|null $navigationGroup = 'Form Builder';
-
     protected static string|BackedEnum|null $navigationIcon = Heroicon::DocumentText;
 
     protected static bool $shouldRegisterNavigation = true;
@@ -62,5 +59,10 @@ class FormResource extends Resource
             'view'      => ViewForm::route('/{record}'),
             'edit'      => EditForm::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationGroup(): string | UnitEnum | null
+    {
+        return config('form-builder.grouped', true) ? config('form-builder.group', 'Form Builder') : null;
     }
 }
