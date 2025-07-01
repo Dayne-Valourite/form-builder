@@ -18,4 +18,16 @@
 ☐ form and then let formBuilder be the resource?
 
 ☐ Extract common code, like meta components
-☐ Some components do not have prefixIcon()
+☐ Model to appear and indicate to the user that the form has been updated and ask them if they want to use the new version or not
+☐ Add more options into the meta data to be saved
+☐ File Upload needs to be coded in
+
+☐ Radio does not work
+
+☐ Meta data
+--> required
+--> prefix icon
+--> prefix
+--> suffix
+--> prefix icon colour
+--> required

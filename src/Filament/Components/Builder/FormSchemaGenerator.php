@@ -2,6 +2,7 @@
 
 namespace Valourite\FormBuilder\Filament\Components\Builder;
 
+use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Section;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
@@ -43,22 +44,29 @@ class FormSchemaGenerator
 
                 $type = $field['type'];
 
+                $required = $field['required'] ?? false;
+
                 $prefixIcon = $field['prefix_icon'] ?? null;
 
                 $heroIcon = $prefixIcon ? Heroicon::from($prefixIcon) : null;
-
-                $colour = $field['colour'] ?? null;
 
                 //we need to pass through a unique identifier
                 $component = FieldRenderer::render($type, $fieldID);
 
                 $component
                     ->label($label)
-                    //->prefixIcon($prefix_icon);
-                    ->prefixIcon($heroIcon)
-                    ->prefixIconColor('text-gray-400')
+                    ->required($required)
                     ->formatStateUsing(fn() => $formResponse[$fieldID] ?? null); //set the default to the value from the form response
-                    //->colour($colour);
+
+
+                if(self::hasMethod($component, 'prefixIcon')) {
+                    $component->prefixIcon($heroIcon);
+
+                    //colour wont work as we need to convert it to tailwind
+                    if(self::hasMethod($component, 'prefixIconColor')) {
+                        $component->prefixIconColor('white');
+                    }
+                }
 
                 $fields[] = $component;
             }
@@ -73,5 +81,10 @@ class FormSchemaGenerator
         }
 
         return $components;
+    }
+
+    protected static function hasMethod(Component $component, string $method): bool
+    {
+        return method_exists($component, $method);
     }
 }

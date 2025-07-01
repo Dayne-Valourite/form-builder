@@ -2,6 +2,7 @@
 
 namespace Valourite\FormBuilder\Filament\Components\Builder;
 
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -53,33 +54,11 @@ class FieldRepeater extends Repeater
                         Tab::make('Options')
                             ->label('Options')
                             ->schema([
-                                ColorPicker::make('colour')
-                                    ->label('Colour')
-                                    ->helperText('This is the colour of the field'),
+                                Checkbox::make('required')
+                                    ->label('Required')
+                                    ->helperText('Is this field required.'),
 
-                                Select::make('prefix_icon')
-                                    ->label('Prefix Icon')
-                                    ->options(
-                                        collect(Heroicon::cases())
-                                            ->mapWithKeys(fn($icon) => [
-                                                $icon->value => Str::title(str_replace('-', ' ', $icon->value)),
-                                            ])
-                                            ->toArray()
-                                    )
-                                    ->searchable()
-                                    ->getOptionLabelFromRecordUsing(function ($value) {
-                                        return Blade::render(
-                                            '<div class="flex items-center gap-2">
-                                                <x-dynamic-component :component="$icon" class="w-4 h-4 text-gray-500" />
-                                                <span>{{ $label }}</span>
-                                            </div>',
-                                            [
-                                                'icon' => $value,
-                                                'label' => $value,
-                                            ]
-                                        );
-                                    })
-                                    ->helperText('Choose a Heroicon to prefix the field.'),
+                                FieldHelper::select(),
 
                                 TextInput::make('custom_id')
                                     ->label('Custom ID')
