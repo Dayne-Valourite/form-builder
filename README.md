@@ -90,6 +90,19 @@ This enables:
 
 > No need to add these to `$fillable`.
 
+Note: Ensure your model has those columns
+- We can update the column names by implementing the following functions:
+
+```php
+public static function getFormContentColumn(): string
+
+public static function getFormIdColumn(): string
+
+public static function getFormResponseColumn(): string
+
+public static function getFormVersionColumn(): string
+```
+
 ---
 
 ### 2. ✅ Create a resource using the base class
@@ -102,14 +115,26 @@ class ClientResource extends FormBuilderResource
     protected static string $model = \App\Models\Client::class;
 
     /**
-     * Optional: Define your base fields
+     * Optional: Define your base schema fields
      * If omitted, these will be auto-generated from `$fillable` and `$casts`
      */
-    public static function customBaseFields(): array
+    public static function customSchemaFields(): array
     {
         return [
             TextInput::make('name')->required(),
             TextInput::make('email')->email()->required(),
+        ];
+    }
+
+    /**
+     * Optional: Define yopur base infolist schema fields
+     * If omitted. these will be auto-generated from `$fillable` and `$casts`
+     */
+    public static function customInfolistFields(): array
+    {
+        return [
+            TextEntry::make('name'),
+            TextEntry::make('email'),
         ];
     }
 }
@@ -121,8 +146,14 @@ class ClientResource extends FormBuilderResource
 
 ```php
 use Valourite\FormBuilder\Filament\Pages\FormBuilderCreateRecord;
+use Valourite\FormBuilder\Filament\Pages\FormBuilderEditRecord;
 
 class CreateClient extends FormBuilderCreateRecord
+{
+    protected static string $resource = ClientResource::class;
+}
+
+class EditClient extends FormBuilderEditRecord
 {
     protected static string $resource = ClientResource::class;
 }

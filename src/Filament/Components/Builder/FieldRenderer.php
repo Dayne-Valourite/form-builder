@@ -23,7 +23,7 @@ class FieldRenderer
         return match ($type) {
             FieldType::TEXT => TextInput::make($fieldID),
             FieldType::NUMBER => TextInput::make($fieldID)->numeric(),
-            FieldType::PASSWORD => TextInput::make($fieldID)->password(),
+            FieldType::PASSWORD => TextInput::make($fieldID)->password()->revealable(),
             FieldType::EMAIL => TextInput::make($fieldID)->email(),
             FieldType::TEXTAREA => Textarea::make($fieldID),
             FieldType::SELECT => Select::make($fieldID),

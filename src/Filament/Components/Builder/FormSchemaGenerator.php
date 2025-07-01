@@ -12,8 +12,15 @@ class FormSchemaGenerator
      * This class will be used to generate and return a schema based on the content that is passed to it
      */
 
-    public static function formContent(array $formContent, array $formResponse = []): array
+    /**
+     * @param array|string $formContent
+     * @param array|string $formResponse
+     */
+    public static function formContent(array|string $formContent, array|string $formResponse = []): array
     {
+        $formContent = is_array($formContent) ? $formContent : json_decode($formContent, true);
+        $formResponse = is_array($formResponse) ? $formResponse : json_decode($formResponse, true);
+
         $components = [];
 
         foreach($formContent as $section) {
@@ -49,7 +56,8 @@ class FormSchemaGenerator
                     ->label($label)
                     //->prefixIcon($prefix_icon);
                     ->prefixIcon($heroIcon)
-                    ->prefixIconColor('text-gray-400');
+                    ->prefixIconColor('text-gray-400')
+                    ->formatStateUsing(fn() => $formResponse[$fieldID] ?? null); //set the default to the value from the form response
                     //->colour($colour);
 
                 $fields[] = $component;
