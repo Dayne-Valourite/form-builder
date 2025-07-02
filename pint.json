@@ -44,7 +44,7 @@
         "declare_strict_types": false,
         "explicit_indirect_variable": true,
         "explicit_string_variable": true,
-        "final_class": false,
+        "final_class": true,
         "fully_qualified_strict_types": false,
         "function_typehint_space": true,
         "global_namespace_import": {
