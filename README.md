@@ -29,12 +29,6 @@ It lets you **attach custom forms to any Eloquent model** in your application wi
 composer require dayne-valourite/form-builder
 ````
 
-> Or, if you’re developing locally:
-
-```bash
-composer require dayne-valourite/form-builder --dev
-```
-
 ### Step 2: Run the installer
 
 ```bash
