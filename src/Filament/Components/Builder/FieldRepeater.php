@@ -3,16 +3,12 @@
 namespace Valourite\FormBuilder\Filament\Components\Builder;
 
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Support\Icons\Heroicon;
-use Illuminate\Support\Facades\Blade;
-use \Illuminate\Support\Str;
+use Illuminate\Support\Str;
 use Valourite\FormBuilder\Filament\Enums\FieldType;
 
 class FieldRepeater extends Repeater

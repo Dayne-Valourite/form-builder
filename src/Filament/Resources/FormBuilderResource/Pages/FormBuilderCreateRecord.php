@@ -8,8 +8,8 @@ abstract class FormBuilderCreateRecord extends CreateRecord
 {
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $model = static::getModel();
-        $instance = new $model;
+        $model    = static::getModel();
+        $instance = new $model();
 
         $formResponse = [];
 
@@ -17,7 +17,7 @@ abstract class FormBuilderCreateRecord extends CreateRecord
 
         foreach ($formData as $section) {
             foreach ($section['Fields'] ?? [] as $field) {
-                if (isset($field['custom_id']) && isset($data[$field['custom_id']])) {
+                if (isset($field['custom_id'], $data[$field['custom_id']])) {
                     $formResponse[$field['custom_id']] = $data[$field['custom_id']];
                     unset($data[$field['custom_id']]);
                 }
@@ -25,7 +25,7 @@ abstract class FormBuilderCreateRecord extends CreateRecord
         }
 
         $data[$instance->getFormResponseColumn()] = json_encode($formResponse);
-        $data[$instance->getFormContentColumn()] = json_encode($formData);
+        $data[$instance->getFormContentColumn()]  = json_encode($formData);
 
         return $data;
     }

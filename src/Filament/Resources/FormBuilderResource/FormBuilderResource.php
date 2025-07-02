@@ -2,7 +2,6 @@
 
 namespace Valourite\FormBuilder\Filament\Resources\FormBuilderResource;
 
-use Filament\Facades\Filament;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -24,8 +23,8 @@ abstract class FormBuilderResource extends Resource
 {
     public static function form(Schema $schema): Schema
     {
-        $model = static::getModel();
-        $instance = new $model;
+        $model    = static::getModel();
+        $instance = new $model();
 
         return $schema
             ->components([
@@ -36,7 +35,7 @@ abstract class FormBuilderResource extends Resource
                     ->relationship(
                         name: 'form',
                         titleAttribute: 'form_name',
-                        modifyQueryUsing: fn($query) => $query
+                        modifyQueryUsing: fn ($query) => $query
                             ->where('form_model', $model)
                             ->where('is_active', true)
                     )
@@ -56,11 +55,11 @@ abstract class FormBuilderResource extends Resource
                 Hidden::make($instance->getFormVersionColumn())->dehydrated()->default([]),
 
                 Group::make()
-                    ->schema(fn(callable $get) => FormSchemaGenerator::formContent(
+                    ->schema(fn (callable $get) => FormSchemaGenerator::formContent(
                         $get($instance->getFormContentColumn()) ?? [],
                         $get($instance->getFormResponseColumn()) ?? []
                     ))
-                    ->visible(fn(callable $get) => filled($get($instance->getFormContentColumn())))
+                    ->visible(fn (callable $get) => filled($get($instance->getFormContentColumn())))
                     ->reactive()
                     ->columnSpanFull(),
 
@@ -70,8 +69,8 @@ abstract class FormBuilderResource extends Resource
 
     public static function infolist(Schema $schema): Schema
     {
-        $model = static::getModel();
-        $instance = new $model;
+        $model    = static::getModel();
+        $instance = new $model();
 
         return $schema->components([
             ...static::baseInfolistFields(),
@@ -80,8 +79,9 @@ abstract class FormBuilderResource extends Resource
                 ->schema(function (Get $get) use ($instance) {
                     $record = $get('record');
 
-                    if (!$record)
+                    if ( ! $record) {
                         return [];
+                    }
 
                     // Decode form content and response
                     $formContent = is_array($record->{$instance->getFormContentColumn()})
@@ -96,22 +96,23 @@ abstract class FormBuilderResource extends Resource
 
                     foreach ($formContent as $section) {
                         $sectionTitle = $section['title'] ?? 'Section';
-                        $fields = [];
+                        $fields       = [];
 
                         foreach ($section['Fields'] ?? [] as $field) {
                             $fieldId = $field['custom_id'] ?? null;
-                            $label = $field['label'] ?? $field['name'] ?? 'Field';
-                            $value = $formResponse[$fieldId] ?? '-';
+                            $label   = $field['label'] ?? $field['name'] ?? 'Field';
+                            $value   = $formResponse[$fieldId] ?? '-';
 
-                            if (!$fieldId)
+                            if ( ! $fieldId) {
                                 continue;
+                            }
 
                             $fields[] = TextEntry::make($fieldId)
                                 ->label($label)
                                 ->state($value);
                         }
 
-                        if (!empty($fields)) {
+                        if ( ! empty($fields)) {
                             $entries[] = Section::make($sectionTitle)->schema($fields)->columns(2);
                         }
                     }
@@ -119,7 +120,7 @@ abstract class FormBuilderResource extends Resource
                     return $entries;
                 })
                 ->columnSpanFull()
-                ->visible(fn(Get $get) => filled($get('record')?->{$instance->getFormContentColumn()})),
+                ->visible(fn (Get $get) => filled($get('record')?->{$instance->getFormContentColumn()})),
         ]);
     }
 
@@ -142,7 +143,7 @@ abstract class FormBuilderResource extends Resource
     public static function generateFieldsFromModel(): array
     {
         $modelClass = static::getModel();
-        $model = new $modelClass;
+        $model      = new $modelClass();
 
         $fields = [];
 
@@ -156,8 +157,9 @@ abstract class FormBuilderResource extends Resource
                     'created_at',
                     'updated_at',
                 ])
-            )
+            ) {
                 continue;
+            }
 
             $cast = $model->getCasts()[$attribute] ?? null;
 
@@ -178,7 +180,7 @@ abstract class FormBuilderResource extends Resource
     public static function generateInfoListFieldsFromModel(): array
     {
         $modelClass = static::getModel();
-        $model = new $modelClass;
+        $model      = new $modelClass();
 
         $fields = [];
 
@@ -188,8 +190,9 @@ abstract class FormBuilderResource extends Resource
                     $model->getFormContentColumn(),
                     $model->getFormResponseColumn(),
                 ])
-            )
+            ) {
                 continue;
+            }
 
             $field = TextEntry::make($attribute);
 

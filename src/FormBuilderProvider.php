@@ -2,7 +2,6 @@
 
 namespace Valourite\FormBuilder;
 
-use Filament\Facades\Filament;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Valourite\FormBuilder\Commands\InstallFormBuilder;
 
@@ -26,7 +25,8 @@ class FormBuilderProvider extends PackageServiceProvider
             ->hasRoute('web');
     }
 
-    public function getMigrations() {
+    public function getMigrations()
+    {
         //return list of migration names
         return [
             'create_forms_table',

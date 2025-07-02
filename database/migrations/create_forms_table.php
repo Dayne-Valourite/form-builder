@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -31,11 +30,11 @@ return new class extends Migration
 
             //Indicates which model this form belongs to
             $table->string('form_model', 255);
-            
+
             //the content of the form
             $table->json('form_content');
 
-            /**
+            /*
              * The current version of the form
              * When changes are made to the form, components may be added or removed
              * If components are removed, entities that use this form would lose those values
