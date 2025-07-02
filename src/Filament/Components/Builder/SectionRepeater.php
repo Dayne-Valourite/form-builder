@@ -17,6 +17,7 @@ final class SectionRepeater extends Repeater
             ->label('Section')
             ->collapsible()
             ->collapsed()
+            ->minItems(1)
             ->schema([
                 Tabs::make()
                     ->label('Section')
@@ -36,10 +37,7 @@ final class SectionRepeater extends Repeater
                             ->schema([
                                 FieldHelper::select(),
 
-                                TextInput::make('custom_id')
-                                    ->label('Custom ID')
-                                    ->default(uniqid('sec-'))
-                                    ->helperText('This is the unique custom ID of the section'),
+                                FieldHelper::customID('sec'),
                             ]),
                     ]),
             ]);

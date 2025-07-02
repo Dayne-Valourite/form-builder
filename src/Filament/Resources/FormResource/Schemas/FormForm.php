@@ -9,6 +9,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 use Valourite\FormBuilder\Filament\Components\Builder\SectionRepeater;
 use Valourite\FormBuilder\Models\Form;
 
@@ -24,19 +25,22 @@ final class FormForm
                         TextInput::make(Form::FROM_NAME)
                             ->label('Form Name')
                             ->helperText('The unique name of the form')
-                            ->reactive()
-                            ->debounce(1000)
-                            ->afterStateUpdated(function (Set $set, ?string $state) {
-                                if ($state) {
-                                    $set(Form::FORM_SLUG, str($state)->slug());
+                            ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function (Set $set, ?string $state, $context) {
+                                if ($context === 'edit') {
+                                    return;
                                 }
+                                $set(Form::FORM_SLUG, Str::slug($state));
                             })
                             ->required(),
 
                         TextInput::make(Form::FORM_SLUG)
                             ->label('Form Slug')
-                            ->disabled()
-                            ->dehydrated() // alows the field to be saved
+                            ->maxLength(255)
+                            ->reactive()
+                            ->rules(['alpha_dash'])
+                            //->dehydrated() // alows the field to be saved
                             ->required()
                             ->helperText('The slug of the form'),
 

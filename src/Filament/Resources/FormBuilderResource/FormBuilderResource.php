@@ -156,6 +156,10 @@ abstract class FormBuilderResource extends Resource
                     $model->getFormVersionColumn(),
                     'created_at',
                     'updated_at',
+                    'form_content',     //included if user did not make change in fillable
+                    'form_response',    //included if user did not make change in fillable
+                    'form_version',     //included if user did not make change in fillable
+                    'form_id',          //included if user did not make change in fillable
                 ])
             ) {
                 continue;

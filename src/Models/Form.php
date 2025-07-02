@@ -11,7 +11,7 @@ final class Form extends Model
     /**
      * =========================
      *		 TRAIT
-     * =========================
+     * =========================.
      */
     use HasFactory;
 
@@ -20,7 +20,7 @@ final class Form extends Model
     /**
      * ==========================
      *		 CONSTANTS
-     * ==========================
+     * ==========================.
      */
     public const FORM_ID = 'form_id';
 
@@ -46,10 +46,12 @@ final class Form extends Model
 
     public const PRIMARY_KEY = 'form_id';
 
+    public $incrementing = true;
+
     /**
      * =========================
      *		 FIELDS
-     * =========================
+     * =========================.
      */
     protected static string $tableName;
 
@@ -57,14 +59,12 @@ final class Form extends Model
 
     protected $primaryKey = self::PRIMARY_KEY;
 
-    public $incrementing = true;
-
     protected $dateFormat = 'Y-m-d';
 
     /**
      * =========================
      *		 CASTS
-     * =========================
+     * =========================.
      */
     protected $casts = [
         self::IS_ACTIVE    => 'boolean',

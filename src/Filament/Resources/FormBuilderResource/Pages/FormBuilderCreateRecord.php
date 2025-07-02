@@ -2,7 +2,9 @@
 
 namespace Valourite\FormBuilder\Filament\Resources\FormBuilderResource\Pages;
 
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\HtmlString;
 
 abstract class FormBuilderCreateRecord extends CreateRecord
 {
@@ -28,5 +30,18 @@ abstract class FormBuilderCreateRecord extends CreateRecord
         $data[$instance->getFormContentColumn()]  = json_encode($formData);
 
         return $data;
+    }
+
+    protected function getCreatedNotification(): ?Notification
+    {
+        $model    = static::getModel();
+        $instance = new $model();
+
+        $title = $instance->form_confirmation_message ?? 'Form submitted successfully!';
+
+        return Notification::make()
+            ->success()
+            ->body(new HtmlString($title))
+            ->title('worked');
     }
 }

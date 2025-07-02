@@ -2,6 +2,7 @@
 
 namespace Valourite\FormBuilder\Filament\Components\Builder;
 
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
@@ -24,5 +25,14 @@ final class FieldHelper
             )
             ->searchable()
             ->helperText('Choose a Heroicon to prefix the field.');
+    }
+
+    public static function customID(string $type)
+    {
+        $default = $type . uniqid('-');
+
+        return Hidden::make('custom_id')
+            ->key('custom_id')
+            ->default($default);
     }
 }

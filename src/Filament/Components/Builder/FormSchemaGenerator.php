@@ -23,10 +23,6 @@ final class FormSchemaGenerator
             $fields = [];
 
             foreach ($section['Fields'] ?? [] as $field) {
-                // This would cause an issue if we can't find the field ID and we try set one
-                // The issue is that we depend on that field ID for future changes to the form
-                // Remove a field id from being created --> rather error
-                // $fieldID = $field['custom_id'] ?? uniqid('field-');
                 $fieldID = $field['custom_id'];
 
                 $name = $field['name'];

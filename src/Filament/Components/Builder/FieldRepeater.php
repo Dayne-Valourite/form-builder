@@ -53,10 +53,7 @@ final class FieldRepeater extends Repeater
 
                                 FieldHelper::select(),
 
-                                TextInput::make('custom_id')
-                                    ->label('Custom ID')
-                                    ->default(uniqid('field-'))
-                                    ->helperText('This is the unique custom ID of the field'),
+                                FieldHelper::customID('field'),
                             ]),
                     ]),
             ])
