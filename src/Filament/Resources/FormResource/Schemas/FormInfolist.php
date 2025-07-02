@@ -6,7 +6,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
-use Valourite\FormBuilder\Filament\Components\Builder\FormSchemaGenerator;
+use Valourite\FormBuilder\Filament\Support\Generators\FormSchemaGenerator;
 use Valourite\FormBuilder\Models\Form;
 
 final class FormInfolist

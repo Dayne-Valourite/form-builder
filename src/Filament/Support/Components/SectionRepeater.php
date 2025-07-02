@@ -1,11 +1,12 @@
 <?php
 
-namespace Valourite\FormBuilder\Filament\Components\Builder;
+namespace Valourite\FormBuilder\Filament\Support\Components;
 
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
+use Valourite\FormBuilder\Filament\Support\Helpers\FieldHelper;
 
 final class SectionRepeater extends Repeater
 {

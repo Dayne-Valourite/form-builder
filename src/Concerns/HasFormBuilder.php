@@ -2,6 +2,7 @@
 
 namespace Valourite\FormBuilder\Concerns;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Valourite\FormBuilder\Models\Form;
 
@@ -38,8 +39,34 @@ trait HasFormBuilder
         return 'form_version';
     }
 
+    public static function getFormColumns(): array
+    {
+        return [
+            static::getFormContentColumn(),
+            static::getFormIdColumn(),
+            static::getFormResponseColumn(),
+            static::getFormVersionColumn(),
+        ];
+    }
+
+    public static function bootHasFormBuilder(): void
+    {
+        static::creating(function (Model $model) {
+            static::mergeFormBuilderFillable($model);
+        });
+    }
+
     public function form(): BelongsTo
     {
         return $this->belongsTo(Form::class, $this->getFormIdColumn());
+    }
+
+    protected static function mergeFormBuilderFillable(Model $model): void
+    {
+        $columns = static::getFormColumns();
+
+        $existing = $model->getFillable();
+
+        $model->fillable(array_unique(array_merge($existing, $columns)));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Valourite\FormBuilder\Filament\Components\Builder;
+namespace Valourite\FormBuilder\Filament\Support\Helpers;
 
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;

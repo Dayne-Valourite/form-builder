@@ -11,7 +11,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
-use Valourite\FormBuilder\Filament\Components\Builder\SectionRepeater;
+use Valourite\FormBuilder\Filament\Support\Components\SectionRepeater;
 use Valourite\FormBuilder\Models\Form;
 
 final class FormForm

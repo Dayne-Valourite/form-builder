@@ -1,11 +1,8 @@
-☐ Rename Builder Folder to Support
-☐ Move Resources into support --> See how bolt does it
 ☐ Add more fields
 ☐ Extract custom code into own createModel page, as well as inject schema for form selector into model creation schema
 ☐ Maybe store the user that has filled the form in?
 ☐ How do we handle a form that gets updated and then a model viewed, do we update the form_content and then display the new form?
 ☐ Cache the form components that gets generated so we can reuse inside the generator?
-☐ Label should auto populate from the name field inside the field repeator --> if not set, we get label from name
 ☐ Neaten up the infolist to make use of created_at and updated_at in a better spot
 --> If users see a nice infolist, they might not want to redo it
 
@@ -23,3 +20,8 @@
 --> prefix
 --> suffix
 --> prefix icon colour
+
+☐ Form custom submit message not working --> We're pulling from an empty instance
+☐ Form display not working when we use a custom field name
+
+☐ When the label updates, the selected value from type is reset

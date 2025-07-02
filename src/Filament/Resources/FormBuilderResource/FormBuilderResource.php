@@ -16,7 +16,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Valourite\FormBuilder\Filament\Components\Builder\FormSchemaGenerator;
+use Valourite\FormBuilder\Filament\Support\Generators\FormSchemaGenerator;
 use Valourite\FormBuilder\Models\Form;
 
 abstract class FormBuilderResource extends Resource
@@ -193,6 +193,8 @@ abstract class FormBuilderResource extends Resource
                 in_array($attribute, [
                     $model->getFormContentColumn(),
                     $model->getFormResponseColumn(),
+                    'form_content',     //included if user did not make change in fillable
+                    'form_response',    //included if user did not make change in fillable
                 ])
             ) {
                 continue;

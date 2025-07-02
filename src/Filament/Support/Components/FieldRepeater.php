@@ -1,6 +1,6 @@
 <?php
 
-namespace Valourite\FormBuilder\Filament\Components\Builder;
+namespace Valourite\FormBuilder\Filament\Support\Components;
 
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Repeater;
@@ -12,6 +12,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Str;
 use Valourite\FormBuilder\Filament\Enums\FieldType;
+use Valourite\FormBuilder\Filament\Support\Helpers\FieldHelper;
 
 final class FieldRepeater extends Repeater
 {
@@ -31,10 +32,18 @@ final class FieldRepeater extends Repeater
                             ->schema([
                                 TextInput::make('name')
                                     ->label('Name')
-                                    ->required(),
+                                    ->live(onBlur: true)
+                                    ->required()
+                                    ->afterStateUpdated(function (Set $set, ?string $state, $context) {
+                                        if ($context === 'edit') {
+                                            return;
+                                        }
+                                        $set('label', str_replace('_', ' ', Str::title(trim($state))));
+                                    }),
 
                                 TextInput::make('label')
                                     ->label('Label')
+                                    ->reactive()
                                     ->helperText('This is the label of the field'),
 
                                 Select::make('type')

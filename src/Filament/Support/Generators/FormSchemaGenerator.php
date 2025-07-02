@@ -1,11 +1,12 @@
 <?php
 
-namespace Valourite\FormBuilder\Filament\Components\Builder;
+namespace Valourite\FormBuilder\Filament\Support\Generators;
 
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Section;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
+use Valourite\FormBuilder\Filament\Support\Renderers\FieldRenderer;
 
 final class FormSchemaGenerator
 {
