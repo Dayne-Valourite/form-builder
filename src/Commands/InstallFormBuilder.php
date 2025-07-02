@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Schema;
 class InstallFormBuilder extends Command
 {
     protected $signature = 'form-builder:install';
+
     protected $description = 'Install the Form Builder package (publish config, run migrations)';
 
     public function handle(): int
@@ -19,6 +20,7 @@ class InstallFormBuilder extends Command
         $this->runMigrationsIfNeeded();
 
         $this->info('🎉 Form Builder installed successfully!');
+
         return self::SUCCESS;
     }
 
@@ -30,7 +32,7 @@ class InstallFormBuilder extends Command
             $this->warn('⚠️  Config file already exists: form-builder.php');
             if ($this->confirm('Do you want to overwrite it?', false)) {
                 $this->callSilent('vendor:publish', [
-                    '--tag' => 'form-builder-config',
+                    '--tag'   => 'form-builder-config',
                     '--force' => true,
                 ]);
                 $this->info('✅ Config overwritten');
@@ -49,8 +51,9 @@ class InstallFormBuilder extends Command
     {
         if (Schema::hasTable('form_categories')) {
             $this->warn('⚠️  Migrations already seem to be applied (form_categories table exists)');
-            if (! $this->confirm('Do you want to run migrations anyway?', false)) {
+            if ( ! $this->confirm('Do you want to run migrations anyway?', false)) {
                 $this->info('⏭️  Skipping migration');
+
                 return;
             }
         }

@@ -21,18 +21,18 @@ class EditForm extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $record = $this->getRecord();
+        $record     = $this->getRecord();
         $oldContent = is_array($record->form_content) ? $record->form_content : json_decode($record->form_content, true);
         $newContent = is_array($data['form_content']) ? $data['form_content'] : json_decode($data['form_content'], true);
 
         $shouldCreateNew = config('form-builder.create_new_record');
-        $hasChanges = $this->hasFormContentChanged($oldContent, $newContent);
+        $hasChanges      = $this->hasFormContentChanged($oldContent, $newContent);
 
         if ($shouldCreateNew && $hasChanges) {
             $newForm = $record->replicate([
                 'form_id',
                 'created_at',
-                'updated_at'
+                'updated_at',
             ]);
 
             // Apply versioning
@@ -52,7 +52,6 @@ class EditForm extends EditRecord
             // //redirect to the new form view page
             // return redirect(FormResource::getUrl('edit', ['record' => $newForm]));
         } elseif ($hasChanges) {
-
             //increment form version
             $data['form_version'] = $this->incrementVersion(
                 $record->form_version,
@@ -66,16 +65,16 @@ class EditForm extends EditRecord
         return $data;
     }
 
-
     protected function hasFormContentChanged(array $old, array $new): bool
     {
         // Strip metadata keys that shouldn't trigger a new version
-        $normalize = fn(array $content) => array_map(function ($section) {
+        $normalize = fn (array $content) => array_map(function ($section) {
             unset($section['title'], $section['icon'], $section['colour']);
 
             if (isset($section['Fields'])) {
                 $section['Fields'] = array_map(function ($field) {
                     unset($field['label'], $field['icon'], $field['colour']);
+
                     return $field;
                 }, $section['Fields']);
             }
@@ -88,7 +87,7 @@ class EditForm extends EditRecord
 
     protected function incrementVersion(string $currentVersion, string $increment = '0.0.1'): string
     {
-        [$major, $minor, $patch] = array_map('intval', explode('.', $currentVersion));
+        [$major, $minor, $patch]          = array_map('intval', explode('.', $currentVersion));
         [$incMajor, $incMinor, $incPatch] = array_map('intval', explode('.', $increment));
 
         $newPatch = $patch + $incPatch;
@@ -97,5 +96,4 @@ class EditForm extends EditRecord
 
         return "{$newMajor}.{$newMinor}.{$newPatch}";
     }
-
 }

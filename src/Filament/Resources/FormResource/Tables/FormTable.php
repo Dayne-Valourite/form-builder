@@ -7,7 +7,6 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Valourite\FormBuilder\Models\Form;
@@ -43,12 +42,12 @@ class FormTable
                 TextColumn::make(Form::IS_ACTIVE)
                     ->label('Active')
                     ->badge()
-                    ->color(fn(bool $state) => $state ? 'success' : 'warning')
-                    ->formatStateUsing(fn(bool $state) => $state ? 'Yes' : 'No'),
+                    ->color(fn (bool $state) => $state ? 'success' : 'warning')
+                    ->formatStateUsing(fn (bool $state) => $state ? 'Yes' : 'No'),
 
                 TextColumn::make(Form::FORM_MODEL)
                     ->label('Model')
-                    ->formatStateUsing(fn($state) => class_basename($state)),
+                    ->formatStateUsing(fn ($state) => class_basename($state)),
 
                 TextColumn::make(Form::FORM_VERSION)
                     ->label('Version')
@@ -65,7 +64,7 @@ class FormTable
                 SelectFilter::make(Form::FORM_MODEL)
                     ->label('Model')
                     ->options(collect(config('form-builder.models', []))
-                        ->mapWithKeys(fn($model) => [$model => class_basename($model)])),
+                        ->mapWithKeys(fn ($model) => [$model => class_basename($model)])),
             ])
             ->recordActions([
                 ViewAction::make(),
@@ -77,5 +76,4 @@ class FormTable
                 ]),
             ]);
     }
-
 }

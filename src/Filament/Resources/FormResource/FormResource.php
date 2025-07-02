@@ -2,22 +2,20 @@
 
 namespace Valourite\FormBuilder\Filament\Resources\FormResource;
 
-use Valourite\FormBuilder\Filament\Resources\FormResource\Pages\ListForm;
-use Valourite\FormBuilder\Filament\Resources\FormResource\Pages\CreateForm;
-use Valourite\FormBuilder\Filament\Resources\FormResource\Pages\EditForm;
-use Valourite\FormBuilder\Filament\Resources\FormResource\Pages\ViewForm;
-use Valourite\FormBuilder\Filament\Resources\FormResource\Schemas\FormForm;
-use Valourite\FormBuilder\Filament\Resources\FormResource\Schemas\FormInfolist;
-use Valourite\FormBuilder\Filament\Resources\FormResource\Tables\FormTable;
-
-use Valourite\FormBuilder\Models\Form;
-
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
+use Valourite\FormBuilder\Filament\Resources\FormResource\Pages\CreateForm;
+use Valourite\FormBuilder\Filament\Resources\FormResource\Pages\EditForm;
+use Valourite\FormBuilder\Filament\Resources\FormResource\Pages\ListForm;
+use Valourite\FormBuilder\Filament\Resources\FormResource\Pages\ViewForm;
+use Valourite\FormBuilder\Filament\Resources\FormResource\Schemas\FormForm;
+use Valourite\FormBuilder\Filament\Resources\FormResource\Schemas\FormInfolist;
+use Valourite\FormBuilder\Filament\Resources\FormResource\Tables\FormTable;
+use Valourite\FormBuilder\Models\Form;
 
 class FormResource extends Resource
 {
@@ -47,17 +45,16 @@ class FormResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index'     => ListForm::route('/'),
-            'create'    => CreateForm::route('/create'),
-            'view'      => ViewForm::route('/{record}'),
-            'edit'      => EditForm::route('/{record}/edit'),
+            'index'  => ListForm::route('/'),
+            'create' => CreateForm::route('/create'),
+            'view'   => ViewForm::route('/{record}'),
+            'edit'   => EditForm::route('/{record}/edit'),
         ];
     }
 
