@@ -8,6 +8,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Str;
 use Valourite\FormBuilder\Filament\Enums\FieldType;
 
@@ -15,13 +17,11 @@ final class FieldRepeater extends Repeater
 {
     public static function make(?string $name = null): static
     {
-        $component = parent::make($name);
-
-        $component
+        return parent::make($name)
             ->label('Form Field')
             ->grid(2)
             ->columnSpanFull()
-            ->schema([
+            ->schema(fn (Get $get) => [
                 Tabs::make()
                     ->label('Field')
                     ->columnSpanFull()
@@ -30,7 +30,7 @@ final class FieldRepeater extends Repeater
                             ->label('Field')
                             ->schema([
                                 TextInput::make('name')
-                                    ->label('name')
+                                    ->label('Name')
                                     ->required(),
 
                                 TextInput::make('label')
@@ -40,13 +40,13 @@ final class FieldRepeater extends Repeater
                                 Select::make('type')
                                     ->label('Type')
                                     ->options(FieldType::class)
-                                    ->getOptionLabelsUsing(fn (string $label): string => Str::ucfirst($label))
-                                    ->required(),
+                                    ->required()
+                                    ->live(),
                             ]),
 
                         Tab::make('Options')
                             ->label('Options')
-                            ->schema([
+                            ->schema(array_filter([
                                 Checkbox::make('required')
                                     ->label('Required')
                                     ->helperText('Is this field required.'),
@@ -54,11 +54,36 @@ final class FieldRepeater extends Repeater
                                 FieldHelper::select(),
 
                                 FieldHelper::customID('field'),
-                            ]),
-                    ]),
-            ])
-            ->columns(2);
 
-        return $component;
+                                Repeater::make('options')
+                                    ->label('Options')
+                                    ->schema([
+                                        TextInput::make('label')
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->label('Option Label')
+                                            ->live(onBlur: true)
+                                            ->afterStateUpdated(function (Set $set, ?string $state, $context) {
+                                                if ($context === 'edit') {
+                                                    return;
+                                                }
+                                                $set('value', str_replace(' ', '_', Str::lower(trim($state))));
+                                            }),
+
+                                        TextInput::make('value')
+                                            ->required()
+                                            ->reactive()
+                                            ->label('Option Value'),
+                                    ])
+                                    ->addActionLabel('Add Option')
+                                    ->minItems(1)
+                                    ->visible(
+                                        fn ($get) => $get('type') === FieldType::SELECT->value ||
+                                        $get('type') === FieldType::RADIO->value
+                                    )
+                                    ->columnSpanFull(),
+                            ])),
+                    ]),
+            ]);
     }
 }

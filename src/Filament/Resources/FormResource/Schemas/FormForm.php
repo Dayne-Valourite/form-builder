@@ -4,6 +4,7 @@ namespace Valourite\FormBuilder\Filament\Resources\FormResource\Schemas;
 
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -54,16 +55,10 @@ final class FormForm
                                 ['undo', 'redo'],
                             ]),
 
-                        RichEditor::make(Form::FORM_CONFIRMATION_MESSAGE)
+                        Textarea::make(Form::FORM_CONFIRMATION_MESSAGE)
                             ->label('Form Confirmation Message')
                             ->helperText('Enter the optional confirmation message of the form')
-                            ->default('Your form has been submitted successfully!')
-                            ->toolbarButtons([
-                                ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'link'],
-                                ['h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'],
-                                ['blockquote', 'codeBlock', 'bulletList', 'orderedList'],
-                                ['undo', 'redo'],
-                            ]),
+                            ->default('Your form has been submitted successfully!'),
 
                         Toggle::make(Form::IS_ACTIVE)
                             ->default(true)

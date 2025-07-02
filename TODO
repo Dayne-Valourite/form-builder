@@ -9,8 +9,6 @@
 ☐ Neaten up the infolist to make use of created_at and updated_at in a better spot
 --> If users see a nice infolist, they might not want to redo it
 
-☐ Make the form infolist, and table schema better
-
 ☐ It makes logical sense to rename Form to FormBuilder and FormBuilder to Form, as we extend FormBuilder currently which is weird, we should extend
 ☐ form and then let formBuilder be the resource?
 
@@ -21,9 +19,8 @@
 
 ☐ Change form_id to id
 
-☐ Radio does not work
-
 ☐ Meta data
+--> allow multiple on a radio or checkbox
 --> prefix
 --> suffix
 --> prefix icon colour

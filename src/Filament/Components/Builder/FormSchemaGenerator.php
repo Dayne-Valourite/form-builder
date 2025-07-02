@@ -23,6 +23,8 @@ final class FormSchemaGenerator
             $fields = [];
 
             foreach ($section['Fields'] ?? [] as $field) {
+                //dd($field);
+
                 $fieldID = $field['custom_id'];
 
                 $name = $field['name'];
@@ -53,6 +55,16 @@ final class FormSchemaGenerator
                     // colour wont work as we need to convert it to tailwind
                     if (self::hasMethod($component, 'prefixIconColor')) {
                         $component->prefixIconColor('white');
+                    }
+                }
+
+                if (self::hasMethod($component, 'options')) {
+                    if (isset($field['options']) && $field['options'] != null) {
+                        $component->options(
+                            collect($field['options'])->mapWithKeys(fn ($opt) => [
+                                $opt['value'] => Str::title(str_replace('_', ' ', $opt['label'])),
+                            ])->toArray()
+                        );
                     }
                 }
 
