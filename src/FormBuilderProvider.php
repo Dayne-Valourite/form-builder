@@ -21,8 +21,7 @@ class FormBuilderProvider extends PackageServiceProvider
             ->hasTranslations()
             ->hasViews()
             ->hasCommands($this->getCommands())
-            ->hasMigrations($this->getMigrations())
-            ->hasRoute('web');
+            ->hasMigrations($this->getMigrations());
     }
 
     public function getMigrations()

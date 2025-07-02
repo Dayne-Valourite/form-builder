@@ -38,18 +38,6 @@ trait HasFormBuilder
         return 'form_version';
     }
 
-    public static function booted()
-    {
-        static::created(function ($model) {
-            //Assign the form values
-        });
-
-        static::saving(function ($model) {
-            //get the values and save them
-            //dd($model);
-        });
-    }
-
     public function form(): BelongsTo
     {
         return $this->belongsTo(Form::class, $this->getFormIdColumn());

@@ -24,7 +24,7 @@ return [
         /*
          * Will increment the version number by the increment_count
          */
-        'mode' => 'increment', //or 'clone'
+        'mode' => 'increment', // or 'clone'
     ],
 
     /*

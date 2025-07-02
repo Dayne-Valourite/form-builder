@@ -21,9 +21,6 @@ class FieldRepeater extends Repeater
             ->label('Form Field')
             ->grid(2)
             ->columnSpanFull()
-            //->columns(1)
-            // ->collapsible()
-            // ->collapsed()
             ->schema([
                 Tabs::make()
                     ->label('Field')

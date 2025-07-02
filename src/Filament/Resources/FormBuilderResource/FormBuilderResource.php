@@ -23,8 +23,8 @@ abstract class FormBuilderResource extends Resource
 {
     public static function form(Schema $schema): Schema
     {
-        $model    = static::getModel();
-        $instance = new $model();
+        $model = static::getModel();
+        $instance = new $model;
 
         return $schema
             ->components([
@@ -39,7 +39,7 @@ abstract class FormBuilderResource extends Resource
                             ->where('form_model', $model)
                             ->where('is_active', true)
                     )
-                    //->searchable() searching is annoying
+                    // ->searchable() searching is annoying
                     ->required()
                     ->live()
                     ->afterStateUpdated(function ($state, callable $set) use ($instance) {
@@ -69,8 +69,8 @@ abstract class FormBuilderResource extends Resource
 
     public static function infolist(Schema $schema): Schema
     {
-        $model    = static::getModel();
-        $instance = new $model();
+        $model = static::getModel();
+        $instance = new $model;
 
         return $schema->components([
             ...static::baseInfolistFields(),
@@ -79,7 +79,7 @@ abstract class FormBuilderResource extends Resource
                 ->schema(function (Get $get) use ($instance) {
                     $record = $get('record');
 
-                    if ( ! $record) {
+                    if (! $record) {
                         return [];
                     }
 
@@ -96,14 +96,14 @@ abstract class FormBuilderResource extends Resource
 
                     foreach ($formContent as $section) {
                         $sectionTitle = $section['title'] ?? 'Section';
-                        $fields       = [];
+                        $fields = [];
 
                         foreach ($section['Fields'] ?? [] as $field) {
                             $fieldId = $field['custom_id'] ?? null;
-                            $label   = $field['label'] ?? $field['name'] ?? 'Field';
-                            $value   = $formResponse[$fieldId] ?? '-';
+                            $label = $field['label'] ?? $field['name'] ?? 'Field';
+                            $value = $formResponse[$fieldId] ?? '-';
 
-                            if ( ! $fieldId) {
+                            if (! $fieldId) {
                                 continue;
                             }
 
@@ -112,7 +112,7 @@ abstract class FormBuilderResource extends Resource
                                 ->state($value);
                         }
 
-                        if ( ! empty($fields)) {
+                        if (! empty($fields)) {
                             $entries[] = Section::make($sectionTitle)->schema($fields)->columns(2);
                         }
                     }
@@ -132,7 +132,7 @@ abstract class FormBuilderResource extends Resource
             : static::generateFieldsFromModel();
     }
 
-    //Implement this in your resource to define model-specific infolist fields
+    // Implement this in your resource to define model-specific infolist fields
     public static function baseInfolistFields(): array
     {
         return method_exists(static::class, 'customInfolistFields')
@@ -143,7 +143,7 @@ abstract class FormBuilderResource extends Resource
     public static function generateFieldsFromModel(): array
     {
         $modelClass = static::getModel();
-        $model      = new $modelClass();
+        $model = new $modelClass;
 
         $fields = [];
 
@@ -180,7 +180,7 @@ abstract class FormBuilderResource extends Resource
     public static function generateInfoListFieldsFromModel(): array
     {
         $modelClass = static::getModel();
-        $model      = new $modelClass();
+        $model = new $modelClass;
 
         $fields = [];
 

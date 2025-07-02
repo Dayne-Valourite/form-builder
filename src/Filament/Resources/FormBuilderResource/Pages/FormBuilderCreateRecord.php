@@ -8,8 +8,8 @@ abstract class FormBuilderCreateRecord extends CreateRecord
 {
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $model    = static::getModel();
-        $instance = new $model();
+        $model = static::getModel();
+        $instance = new $model;
 
         $formResponse = [];
 
@@ -25,7 +25,7 @@ abstract class FormBuilderCreateRecord extends CreateRecord
         }
 
         $data[$instance->getFormResponseColumn()] = json_encode($formResponse);
-        $data[$instance->getFormContentColumn()]  = json_encode($formData);
+        $data[$instance->getFormContentColumn()] = json_encode($formData);
 
         return $data;
     }

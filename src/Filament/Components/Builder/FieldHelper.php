@@ -6,18 +6,11 @@ use Filament\Forms\Components\Select;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
 
+/**
+ * This class will be used to inject any reused code into the form.
+ */
 class FieldHelper
 {
-    /**
-     * This class will be used to inject any reused code into the form.
-     *
-     * Reusable code:
-     * - meta data
-     * --> custom_id
-     * --> required
-     * --> icon
-     * --> prefix icon colour
-     */
     public static function select()
     {
         return Select::make('prefix_icon')

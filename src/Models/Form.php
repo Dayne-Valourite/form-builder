@@ -2,22 +2,25 @@
 
 namespace Valourite\FormBuilder\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Valourite\FormBuilder\Database\Factories\FormFactory;
 
 class Form extends Model
 {
     /**
      * =========================
      *		 TRAIT
-     * =========================.
+     * =========================
      */
+    use HasFactory;
 
-    //---------------------------
+    // --------------------------
 
     /**
-     * =========================
+     * ==========================
      *		 CONSTANTS
-     * =========================.
+     * ==========================
      */
     public const FORM_ID = 'form_id';
 
@@ -43,16 +46,16 @@ class Form extends Model
 
     public const PRIMARY_KEY = 'form_id';
 
-    public $incrementing = true;
-
     /**
      * =========================
      *		 FIELDS
-     * =========================.
+     * =========================
      */
     protected static string $tableName;
 
     protected $table;
+
+    public $incrementing = true;
 
     protected $primaryKey = self::PRIMARY_KEY;
 
@@ -64,7 +67,7 @@ class Form extends Model
      * =========================.
      */
     protected $casts = [
-        self::IS_ACTIVE    => 'boolean',
+        self::IS_ACTIVE => 'boolean',
         self::FORM_CONTENT => 'json',
     ];
 
@@ -91,53 +94,28 @@ class Form extends Model
      */
     public static function booted(): void
     {
-        //This does run
+        self::$tableName = config('form-builder.table_prefix').'forms';
 
-        self::$tableName = config('form-builder.table_prefix') . 'forms';
+        static::$tableName = config('form-builder.table_prefix').'forms';
 
-        static::$tableName = config('form-builder.table_prefix') . 'forms';
-
-        //Allow the slug to be generated from the form
+        // Allow the slug to be generated from the form
         static::creating(function ($model) {
             $model->form_slug = str($model->form_name)->slug();
 
-            if (null === $model->form_content) {
+            if ($model->form_content === null) {
                 $model->form_content = json_encode('{}');
             }
-            // $processed = collect($model->form_content)->map(function ($section) {
-            // 	$section['meta'] = [
-            // 		'colour' => $section['colour'] ?? null,
-            // 		'icon' => $section['icon'] ?? null,
-            // 		'custom_id' => $section['custom_id'] ?? uniqid('sec-'),
-            // 	];
-
-            // 	unset($section['colour'], $section['icon'], $section['custom_id']);
-            // 	return $section;
-            // });
-
-            // $model->form_content = $processed->toArray();
-
-            //Map the form content into the json format
-            /*
-             * "sections" => {}
-             *
-             *
-             *
-             *
-             *
-             *
-             */
         });
     }
 
     /**
      * ========================
      * 		FILAMENT
-     * ========================.
+     * ========================
      */
     public function getTable()
     {
-        return config('form-builder.table_prefix') . 'forms';
+        return config('form-builder.table_prefix').'forms';
     }
 
     /*
@@ -146,7 +124,7 @@ class Form extends Model
      * =========================
      */
 
-    //--------------------------------
+    // -------------------------
 
     /*
      * =========================
@@ -154,8 +132,8 @@ class Form extends Model
      * =========================
      */
 
-    // public static function factory(): CompanyFactory
-    // {
-    // 	return CompanyFactory::new();
-    // }
+    public static function factory(): FormFactory
+    {
+        return FormFactory::new();
+    }
 }

@@ -21,19 +21,19 @@ class FieldRenderer
         $type = FieldType::from(mb_strtolower($type));
 
         return match ($type) {
-            FieldType::TEXT     => TextInput::make($fieldID),
-            FieldType::NUMBER   => TextInput::make($fieldID)->numeric(),
+            FieldType::TEXT => TextInput::make($fieldID),
+            FieldType::NUMBER => TextInput::make($fieldID)->numeric(),
             FieldType::PASSWORD => TextInput::make($fieldID)->password()->revealable(),
-            FieldType::EMAIL    => TextInput::make($fieldID)->email(),
+            FieldType::EMAIL => TextInput::make($fieldID)->email(),
             FieldType::TEXTAREA => Textarea::make($fieldID),
-            FieldType::SELECT   => Select::make($fieldID),
-            FieldType::RADIO    => Radio::make($fieldID),
+            FieldType::SELECT => Select::make($fieldID),
+            FieldType::RADIO => Radio::make($fieldID),
             FieldType::CHECKBOX => Checkbox::make($fieldID),
-            FieldType::DATE     => DatePicker::make($fieldID),
-            FieldType::TIME     => TimePicker::make($fieldID),
+            FieldType::DATE => DatePicker::make($fieldID),
+            FieldType::TIME => TimePicker::make($fieldID),
             FieldType::DATETIME => DateTimePicker::make($fieldID),
-            FieldType::FILE     => FileUpload::make($fieldID),
-            default             => TextInput::make($fieldID),
+            FieldType::FILE => FileUpload::make($fieldID),
+            default => TextInput::make($fieldID),
         };
     }
 }

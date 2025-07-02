@@ -36,7 +36,7 @@ class FormInfolist
                 ->schema(function (Get $get) {
                     $record = $get('record');
 
-                    if ( ! $record?->form_content) {
+                    if (! $record?->form_content) {
                         return [];
                     }
 
@@ -44,7 +44,7 @@ class FormInfolist
                         ? $record->form_content
                         : json_decode($record->form_content, true);
 
-                    //we return the schema and allow the user to play with it -> enter values, they wont be saved
+                    // we return the schema and allow the user to play with it -> enter values, they wont be saved
                     return FormSchemaGenerator::formContent($formContent, []);
                 })
                 ->visible(fn (Get $get) => filled($get('record')?->form_content))

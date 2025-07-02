@@ -12,14 +12,9 @@ class FormSchemaGenerator
     /**
      * This class will be used to generate and return a schema based on the content that is passed to it.
      */
-
-    /**
-     * @param array|string $formContent
-     * @param array|string $formResponse
-     */
     public static function formContent(array|string $formContent, array|string $formResponse = []): array
     {
-        $formContent  = is_array($formContent) ? $formContent : json_decode($formContent, true);
+        $formContent = is_array($formContent) ? $formContent : json_decode($formContent, true);
         $formResponse = is_array($formResponse) ? $formResponse : json_decode($formResponse, true);
 
         $components = [];
@@ -28,16 +23,16 @@ class FormSchemaGenerator
             $fields = [];
 
             foreach ($section['Fields'] ?? [] as $field) {
-                //This would cause an issue if we can't find the field ID and we try set one
-                //The issue is that we depend on that field ID for future changes to the form
-                //Remove a field id from being created --> rather error
-                //$fieldID = $field['custom_id'] ?? uniqid('field-');
+                // This would cause an issue if we can't find the field ID and we try set one
+                // The issue is that we depend on that field ID for future changes to the form
+                // Remove a field id from being created --> rather error
+                // $fieldID = $field['custom_id'] ?? uniqid('field-');
                 $fieldID = $field['custom_id'];
 
                 $name = $field['name'];
 
-                //If we can't find the label, we throw the custom_id as the label
-                //This results in a random string as the label
+                // If we can't find the label, we throw the custom_id as the label
+                // This results in a random string as the label
                 $label = $field['label'] ?? Str::title($name);
 
                 $type = $field['type'];
@@ -48,18 +43,18 @@ class FormSchemaGenerator
 
                 $heroIcon = $prefixIcon ? Heroicon::from($prefixIcon) : null;
 
-                //we need to pass through a unique identifier
+                // we need to pass through a unique identifier
                 $component = FieldRenderer::render($type, $fieldID);
 
                 $component
                     ->label($label)
                     ->required($required)
-                    ->formatStateUsing(fn () => $formResponse[$fieldID] ?? null); //set the default to the value from the form response
+                    ->formatStateUsing(fn () => $formResponse[$fieldID] ?? null); // set the default to the value from the form response
 
                 if (self::hasMethod($component, 'prefixIcon')) {
                     $component->prefixIcon($heroIcon);
 
-                    //colour wont work as we need to convert it to tailwind
+                    // colour wont work as we need to convert it to tailwind
                     if (self::hasMethod($component, 'prefixIconColor')) {
                         $component->prefixIconColor('white');
                     }
@@ -68,8 +63,8 @@ class FormSchemaGenerator
                 $fields[] = $component;
             }
 
-            //create the section
-            if ( ! empty($fields)) {
+            // create the section
+            if (! empty($fields)) {
                 $components[] = Section::make($section['title'] ?? 'Section')
                     ->schema($fields)
                     ->collapsible();

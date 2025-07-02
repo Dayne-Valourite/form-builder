@@ -36,7 +36,7 @@ class FormForm
                         TextInput::make(Form::FORM_SLUG)
                             ->label('Form Slug')
                             ->disabled()
-                            ->dehydrated() //alows the field to be saved
+                            ->dehydrated() // alows the field to be saved
                             ->required()
                             ->helperText('The slug of the form'),
 
@@ -83,10 +83,10 @@ class FormForm
                             ->required(),
                     ]),
 
-                //Section for form creation
+                // Section for form creation
                 Section::make('Form Creation')
                     ->schema([
-                        //Create section repeater
+                        // Create section repeater
                         SectionRepeater::make(Form::FORM_CONTENT),
                     ])
                     ->columns(1),

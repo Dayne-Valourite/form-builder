@@ -4,34 +4,35 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class () extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create(config('form-builder.table_prefix') . 'forms', function (Blueprint $table) {
+        Schema::create(config('form-builder.table_prefix').'forms', function (Blueprint $table) {
             $table->bigIncrements('form_id');
 
-            //name of form - unique
+            // name of form - unique
             $table->string('form_name', 255)->index('index_form_name');
 
-            //the name of the form as a slug
+            // the name of the form as a slug
             $table->string('form_slug', 255);
 
-            //description of form
+            // description of form
             $table->text('form_description')->nullable();
 
-            //confirmation message to be displayed when form is submitted
+            // confirmation message to be displayed when form is submitted
             $table->text('form_confirmation_message')->nullable();
 
-            //Indicates if the current form is active
+            // Indicates if the current form is active
             $table->tinyInteger('is_active')->default(1);
 
-            //Indicates which model this form belongs to
+            // Indicates which model this form belongs to
             $table->string('form_model', 255);
 
-            //the content of the form
+            // the content of the form
             $table->json('form_content');
 
             /*
@@ -51,6 +52,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('forms');
+        Schema::dropIfExists(config('form-builder.table_prefix').'forms');
     }
 };

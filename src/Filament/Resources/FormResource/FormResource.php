@@ -51,14 +51,14 @@ class FormResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListForm::route('/'),
+            'index' => ListForm::route('/'),
             'create' => CreateForm::route('/create'),
-            'view'   => ViewForm::route('/{record}'),
-            'edit'   => EditForm::route('/{record}/edit'),
+            'view' => ViewForm::route('/{record}'),
+            'edit' => EditForm::route('/{record}/edit'),
         ];
     }
 
-    public static function getNavigationGroup(): string | UnitEnum | null
+    public static function getNavigationGroup(): string|UnitEnum|null
     {
         return config('form-builder.grouped', true) ? config('form-builder.group', 'Form Builder') : null;
     }
