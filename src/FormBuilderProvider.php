@@ -5,7 +5,7 @@ namespace Valourite\FormBuilder;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Valourite\FormBuilder\Commands\InstallFormBuilder;
 
-class FormBuilderProvider extends PackageServiceProvider
+final class FormBuilderProvider extends PackageServiceProvider
 {
     public function bootingPackage()
     {

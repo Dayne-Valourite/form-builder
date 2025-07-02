@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Valourite\FormBuilder\Database\Factories\FormFactory;
 
-class Form extends Model
+final class Form extends Model
 {
     /**
      * =========================
@@ -55,19 +55,19 @@ class Form extends Model
 
     protected $table;
 
-    public $incrementing = true;
-
     protected $primaryKey = self::PRIMARY_KEY;
+
+    public $incrementing = true;
 
     protected $dateFormat = 'Y-m-d';
 
     /**
      * =========================
      *		 CASTS
-     * =========================.
+     * =========================
      */
     protected $casts = [
-        self::IS_ACTIVE => 'boolean',
+        self::IS_ACTIVE    => 'boolean',
         self::FORM_CONTENT => 'json',
     ];
 
@@ -94,9 +94,9 @@ class Form extends Model
      */
     public static function booted(): void
     {
-        self::$tableName = config('form-builder.table_prefix').'forms';
+        self::$tableName = config('form-builder.table_prefix') . 'forms';
 
-        static::$tableName = config('form-builder.table_prefix').'forms';
+        static::$tableName = config('form-builder.table_prefix') . 'forms';
 
         // Allow the slug to be generated from the form
         static::creating(function ($model) {
@@ -106,16 +106,6 @@ class Form extends Model
                 $model->form_content = json_encode('{}');
             }
         });
-    }
-
-    /**
-     * ========================
-     * 		FILAMENT
-     * ========================
-     */
-    public function getTable()
-    {
-        return config('form-builder.table_prefix').'forms';
     }
 
     /*
@@ -135,5 +125,15 @@ class Form extends Model
     public static function factory(): FormFactory
     {
         return FormFactory::new();
+    }
+
+    /**
+     * ========================
+     * 		FILAMENT
+     * ========================.
+     */
+    public function getTable()
+    {
+        return config('form-builder.table_prefix') . 'forms';
     }
 }

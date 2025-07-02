@@ -9,7 +9,7 @@ use Filament\Schemas\Schema;
 use Valourite\FormBuilder\Filament\Components\Builder\FormSchemaGenerator;
 use Valourite\FormBuilder\Models\Form;
 
-class FormInfolist
+final class FormInfolist
 {
     public static function configure(Schema $schema): Schema
     {
@@ -36,7 +36,7 @@ class FormInfolist
                 ->schema(function (Get $get) {
                     $record = $get('record');
 
-                    if (! $record?->form_content) {
+                    if ( ! $record?->form_content) {
                         return [];
                     }
 

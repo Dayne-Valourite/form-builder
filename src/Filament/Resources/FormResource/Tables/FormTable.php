@@ -11,7 +11,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Valourite\FormBuilder\Models\Form;
 
-class FormTable
+final class FormTable
 {
     public static function configure(Table $table): Table
     {

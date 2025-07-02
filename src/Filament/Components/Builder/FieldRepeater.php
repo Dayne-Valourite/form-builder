@@ -11,7 +11,7 @@ use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Support\Str;
 use Valourite\FormBuilder\Filament\Enums\FieldType;
 
-class FieldRepeater extends Repeater
+final class FieldRepeater extends Repeater
 {
     public static function make(?string $name = null): static
     {

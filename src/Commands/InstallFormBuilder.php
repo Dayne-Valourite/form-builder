@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 
-class InstallFormBuilder extends Command
+final class InstallFormBuilder extends Command
 {
     protected $signature = 'form-builder:install';
 
@@ -32,7 +32,7 @@ class InstallFormBuilder extends Command
             $this->warn('⚠️  Config file already exists: form-builder.php');
             if ($this->confirm('Do you want to overwrite it?', false)) {
                 $this->callSilent('vendor:publish', [
-                    '--tag' => 'form-builder-config',
+                    '--tag'   => 'form-builder-config',
                     '--force' => true,
                 ]);
                 $this->info('✅ Config overwritten');
@@ -49,9 +49,9 @@ class InstallFormBuilder extends Command
 
     protected function runMigrationsIfNeeded(): void
     {
-        if (Schema::hasTable(config('form-builder.table_prefix').'forms')) {
-            $this->warn('⚠️  Migrations already seem to be applied ('.config('form-builder.table_prefix').'forms table exists)');
-            if (! $this->confirm('Do you want to run migrations anyway?', false)) {
+        if (Schema::hasTable(config('form-builder.table_prefix') . 'forms')) {
+            $this->warn('⚠️  Migrations already seem to be applied (' . config('form-builder.table_prefix') . 'forms table exists)');
+            if ( ! $this->confirm('Do you want to run migrations anyway?', false)) {
                 $this->info('⏭️  Skipping migration');
 
                 return;

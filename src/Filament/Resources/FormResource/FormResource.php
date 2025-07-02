@@ -17,7 +17,7 @@ use Valourite\FormBuilder\Filament\Resources\FormResource\Schemas\FormInfolist;
 use Valourite\FormBuilder\Filament\Resources\FormResource\Tables\FormTable;
 use Valourite\FormBuilder\Models\Form;
 
-class FormResource extends Resource
+final class FormResource extends Resource
 {
     protected static ?string $model = Form::class;
 
@@ -51,10 +51,10 @@ class FormResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListForm::route('/'),
+            'index'  => ListForm::route('/'),
             'create' => CreateForm::route('/create'),
-            'view' => ViewForm::route('/{record}'),
-            'edit' => EditForm::route('/{record}/edit'),
+            'view'   => ViewForm::route('/{record}'),
+            'edit'   => EditForm::route('/{record}/edit'),
         ];
     }
 

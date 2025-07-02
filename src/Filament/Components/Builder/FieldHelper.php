@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 /**
  * This class will be used to inject any reused code into the form.
  */
-class FieldHelper
+final class FieldHelper
 {
     public static function select()
     {

@@ -7,7 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 
-class SectionRepeater extends Repeater
+final class SectionRepeater extends Repeater
 {
     public static function make(?string $name = null): static
     {

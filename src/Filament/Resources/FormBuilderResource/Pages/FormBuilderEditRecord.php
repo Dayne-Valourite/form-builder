@@ -8,8 +8,8 @@ abstract class FormBuilderEditRecord extends EditRecord
 {
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $model = static::getModel();
-        $instance = new $model;
+        $model    = static::getModel();
+        $instance = new $model();
 
         // clear the form response
         unset($data[$instance->getFormResponseColumn()]);
@@ -30,7 +30,7 @@ abstract class FormBuilderEditRecord extends EditRecord
         }
 
         $data[$instance->getFormResponseColumn()] = json_encode($formResponse);
-        $data[$instance->getFormContentColumn()] = json_encode($formData);
+        $data[$instance->getFormContentColumn()]  = json_encode($formData);
 
         return $data;
     }

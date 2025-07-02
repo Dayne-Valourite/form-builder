@@ -7,14 +7,14 @@ use Filament\Schemas\Components\Section;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Str;
 
-class FormSchemaGenerator
+final class FormSchemaGenerator
 {
     /**
      * This class will be used to generate and return a schema based on the content that is passed to it.
      */
     public static function formContent(array|string $formContent, array|string $formResponse = []): array
     {
-        $formContent = is_array($formContent) ? $formContent : json_decode($formContent, true);
+        $formContent  = is_array($formContent) ? $formContent : json_decode($formContent, true);
         $formResponse = is_array($formResponse) ? $formResponse : json_decode($formResponse, true);
 
         $components = [];
@@ -64,7 +64,7 @@ class FormSchemaGenerator
             }
 
             // create the section
-            if (! empty($fields)) {
+            if ( ! empty($fields)) {
                 $components[] = Section::make($section['title'] ?? 'Section')
                     ->schema($fields)
                     ->collapsible();
@@ -74,7 +74,7 @@ class FormSchemaGenerator
         return $components;
     }
 
-    protected static function hasMethod(Component $component, string $method): bool
+    private static function hasMethod(Component $component, string $method): bool
     {
         return method_exists($component, $method);
     }

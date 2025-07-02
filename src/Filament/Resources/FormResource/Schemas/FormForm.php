@@ -12,7 +12,7 @@ use Filament\Schemas\Schema;
 use Valourite\FormBuilder\Filament\Components\Builder\SectionRepeater;
 use Valourite\FormBuilder\Models\Form;
 
-class FormForm
+final class FormForm
 {
     public static function configure(Schema $schema): Schema
     {
