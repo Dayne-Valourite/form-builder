@@ -48,7 +48,12 @@ final class FieldRepeater extends Repeater
 
                                 Select::make('type')
                                     ->label('Type')
-                                    ->options(FieldType::class)
+                                    ->options(
+                                        collect(FieldType::cases())
+                                        ->mapWithKeys(fn ($type) => [
+                                            $type->value => Str::title($type->name),
+                                        ])
+                                    )
                                     ->required()
                                     ->live(),
                             ]),
