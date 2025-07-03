@@ -5,23 +5,23 @@ It lets you **attach custom forms to any Eloquent model** in your application wi
 
 ---
 
-## ✨ Features
+## Features
 
-- 🔧 Built entirely with Filament v4 components
-- 🧠 Dynamic form rendering using `form_content` + `form_response`
-- 📥 All form fields are stored in a **single JSON column**
-- 🧱 Visually design sections + fields with nested repeaters
-- 🌀 Automatically bind values via `custom_id`
-- 🧬 Smart versioning support (`form_version`)
-- 🧩 Seamlessly plug into any Eloquent model using a trait
-- 🛠️ Custom Filament resource base for auto-form handling
-- 📦 Install via `form-builder:install` command
+- Built entirely with Filament v4 components
+- Dynamic form rendering using `form_content` + `form_response`
+- All form fields are stored in a **single JSON column**
+- Visually design sections + fields with nested repeaters
+- Automatically bind values via `custom_id`
+- Smart versioning support (`form_version`)
+- Seamlessly plug into any Eloquent model using a trait
+- Custom Filament resource base for auto-form handling
+- Install via `form-builder:install` command
 
 ---
 
-## 📦 Installation
+## Installation
 
-> Requires Laravel 11+ and Filament 4+
+> Requires Laravel 12+ and Filament 4+
 
 ### Step 1: Install via Composer
 
@@ -37,12 +37,12 @@ php artisan form-builder:install
 
 This will:
 
-* ✅ Publish the config file to `config/form-builder.php`
-* ✅ Run the required database migrations
+* Publish the config file to `config/form-builder.php`
+* Run the required database migrations
 
 ---
 
-## 🔌 Register the plugin
+## Register the plugin
 
 In your `PanelProvider`:
 
@@ -60,9 +60,9 @@ public function panel(Panel $panel): Panel
 
 ---
 
-## 🧩 Usage
+## Usage
 
-### 1. ✅ Setup your Eloquent model
+### 1. Setup your Eloquent model
 
 Use the `HasFormBuilder` trait:
 
@@ -99,7 +99,7 @@ public static function getFormVersionColumn(): string
 
 ---
 
-### 2. ✅ Create a resource using the base class
+### 2. Create a resource using the base class
 
 ```php
 use Valourite\FormBuilder\Filament\Resources\FormBuilderResource;
@@ -121,7 +121,7 @@ class ClientResource extends FormBuilderResource
     }
 
     /**
-     * Optional: Define yopur base infolist schema fields
+     * Optional: Define your base infolist schema fields
      * If omitted. these will be auto-generated from `$fillable` and `$casts`
      */
     public static function customInfolistFields(): array
@@ -136,18 +136,12 @@ class ClientResource extends FormBuilderResource
 
 ---
 
-### 3. ✅ Use the base page class
+### 3. Use the base page class
 
 ```php
 use Valourite\FormBuilder\Filament\Pages\FormBuilderCreateRecord;
-use Valourite\FormBuilder\Filament\Pages\FormBuilderEditRecord;
 
 class CreateClient extends FormBuilderCreateRecord
-{
-    protected static string $resource = ClientResource::class;
-}
-
-class EditClient extends FormBuilderEditRecord
 {
     protected static string $resource = ClientResource::class;
 }
@@ -159,9 +153,23 @@ This handles:
 * Saving the form response into `form_response`
 * Linking the correct `form_id`, version, and structure
 
+And inside your Edit page class
+```php
+use Valourite\FormBuilder\Filament\Pages\FormBuilderEditRecord;
+
+class EditClient extends FormBuilderEditRecord
+{
+    protected static string $resource = ClientResource::class;
+}
+```
+
+This handles:
+* Dynamic rendering of the form schema
+* Allowing updates to be made to the form values
+
 ---
 
-## 🧠 How It Works
+## How It Works
 
 * Selecting a form from the dropdown dynamically renders its fields
 * Values are bound using each field’s `custom_id`
@@ -170,7 +178,7 @@ This handles:
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 In `config/form-builder.php`:
 
@@ -190,7 +198,7 @@ return [
 
 ---
 
-## 🧪 Testing & Contributing
+## Testing & Contributing
 
 Pull requests, issues, and improvements are welcome!
 
