@@ -1,6 +1,6 @@
 ☐ Add more fields
 ☐ Extract custom code into own createModel page, as well as inject schema for form selector into model creation schema
-☐ Maybe store the user that has filled the form in?
+☐ Maybe store the user that has filled the form in? --> the users can do that on their own for the default model columns
 ☐ How do we handle a form that gets updated and then a model viewed, do we update the form_content and then display the new form?
 ☐ Cache the form components that gets generated so we can reuse inside the generator?
 ☐ Neaten up the infolist to make use of created_at and updated_at in a better spot
