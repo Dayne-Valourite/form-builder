@@ -34,7 +34,7 @@ final class FieldRenderer
             FieldType::DATETIME => DateTimePicker::make($fieldID),
             //removed for now as we do not have any upload logic
             //FieldType::FILE     => FileUpload::make($fieldID),
-            default             => TextInput::make($fieldID),
+            default => TextInput::make($fieldID),
         };
     }
 }

@@ -50,9 +50,9 @@ final class FieldRepeater extends Repeater
                                     ->label('Type')
                                     ->options(
                                         collect(FieldType::cases())
-                                        ->mapWithKeys(fn ($type) => [
-                                            $type->value => Str::title($type->name),
-                                        ])
+                                            ->mapWithKeys(fn ($type) => [
+                                                $type->value => Str::title($type->name),
+                                            ])
                                     )
                                     ->required()
                                     ->live(),
