@@ -14,16 +14,22 @@ final class FieldHelper
 {
     public static function select()
     {
+        /**
+         * Credit thanks to Charlie Etienne
+         * https://github.com/CharlieEtienne
+         */
         return Select::make('prefix_icon')
-            ->label('Prefix Icon')
-            ->options(
-                collect(Heroicon::cases())
-                    ->mapWithKeys(fn ($icon) => [
-                        $icon->value => Str::title(str_replace('-', ' ', $icon->value)),
-                    ])
-                    ->toArray()
-            )
-            ->searchable()
+                ->options(
+                    collect(Heroicon::cases())->mapWithKeys(function (Heroicon $heroicon) {
+                        $iconName = $heroicon->value;
+                        $iconHtml = \Filament\Support\generate_icon_html($heroicon)->toHtml();
+                        $label = "<div class='flex gap-2'>$iconHtml<span>$iconName</span></div>";
+                        return [$iconName => $label];
+                    })->toArray()
+                )
+                ->searchable()
+                ->preload()
+                ->allowHtml()
             ->helperText('Choose a Heroicon to prefix the field.');
     }
 
