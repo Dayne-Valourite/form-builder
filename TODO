@@ -25,3 +25,5 @@
 ☐ Form display not working when we use a custom field name
 
 ☐ When the label updates, the selected value from type is reset
+
+☐ Update the icon select to make use of icons inline and not floating above text
